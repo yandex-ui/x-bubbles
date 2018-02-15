@@ -1,5 +1,4 @@
 const events = require('../events');
-const utils = require('../utils');
 const bubble = require('../bubble');
 const select = require('../select');
 const { KEY } = require('../constant');
@@ -25,14 +24,10 @@ module.exports = function (event) {
 };
 
 function editBubbleKeyboardEvent(nodeEditor) {
-    const selection = utils.getSelection(nodeEditor);
+    const editableBubble = select.getEditable(nodeEditor);
 
-    if (!selection || !selection.rangeCount) {
-        const list = select.get(nodeEditor);
-
-        if (list.length === 1) {
-            return bubble.edit(nodeEditor, list[0]);
-        }
+    if (editableBubble) {
+        return bubble.edit(nodeEditor, editableBubble);
     }
 
     return false;

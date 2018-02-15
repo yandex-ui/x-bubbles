@@ -1,6 +1,7 @@
 const events = require('../events');
 const bubble = require('../bubble');
 const cursor = require('../cursor');
+const select = require('../select');
 const { KEY } = require('../constant');
 
 /**
@@ -12,7 +13,7 @@ module.exports = function (event) {
 
     if (code === KEY.Enter) {
         event.preventDefault();
-        if (!nodeEditor.options('disableControls')) {
+        if (!nodeEditor.options('disableControls') && !select.getEditable(nodeEditor)) {
             bubble.bubbling(nodeEditor);
             cursor.restore(nodeEditor);
         }
