@@ -8,36 +8,26 @@ const editor = require('./core/editor');
 const utils = require('./core/utils');
 const options = require('./core/options');
 
-/**
- * Prototype of XBubbles.
- * @type {Object}
- */
-const XBubbles = Object.create(HTMLDivElement.prototype, {
-    createdCallback: {
-        value: function () {
-            initEditor(this);
-            utils.ready(this);
-        }
-    },
+class XBubbles extends HTMLDivElement {
+    constructor() {
+        super();
 
-    attachedCallback: {
-        value: function () {
-            initEditor(this);
-            this.editor.bubbling();
-        }
-    },
+        initEditor(this);
+        utils.ready(this);
+    }
 
-    detachedCallback: {
-        value: function () {
-            destroyEditor(this);
-        }
-    },
+    connectedCallback() {
+        initEditor(this);
+        this.editor.bubbling();
+    }
 
-    attributeChangedCallback: {
-        value: function (/* name, prevValue, value */) {
-            options(this);
-        }
-    },
+    disconnectedCallback() {
+        destroyEditor(this);
+    }
+
+    attributeChangedCallback(/* name, prevValue, value */) {
+        options(this);
+    }
 
     /**
      * The receiving and recording settings.
@@ -48,11 +38,10 @@ const XBubbles = Object.create(HTMLDivElement.prototype, {
      * @returns {*}
      * @public
      */
-    options: {
-        value: function (name, value) {
-            return options(this, name, value);
-        }
-    },
+    options(name, value) {
+        return options(this, name, value)
+    }
+
 
     /**
      * List bablow.
@@ -60,11 +49,9 @@ const XBubbles = Object.create(HTMLDivElement.prototype, {
      * @type {array}
      * @public
      */
-    items: {
-        get: function () {
-            return this.editor.getItems();
-        }
-    },
+    items() {
+        return this.editor.getItems();
+    }
 
     /**
      * The value entered.
@@ -72,11 +59,9 @@ const XBubbles = Object.create(HTMLDivElement.prototype, {
      * @type {string}
      * @public
      */
-    inputValue: {
-        get: function () {
-            return this.editor.inputValue();
-        }
-    },
+    inputValue() {
+        return this.editor.inputValue();
+    }
 
     /**
      * Set contents of the set.
@@ -86,17 +71,13 @@ const XBubbles = Object.create(HTMLDivElement.prototype, {
      * @returns {boolean}
      * @public
      */
-    setContent: {
-        value: function (data) {
-            return this.editor.setContent(data);
-        }
-    },
+    setContent(data) {
+        return this.editor.setContent(data);
+    }
 
-    canAddBubble: {
-        value: function () {
-            return this.editor.canAddBubble();
-        }
-    },
+    canAddBubble() {
+        return this.editor.canAddBubble();
+    }
 
     /**
      * Add bubble.
@@ -107,11 +88,9 @@ const XBubbles = Object.create(HTMLDivElement.prototype, {
      * @returns {boolean}
      * @public
      */
-    addBubble: {
-        value: function (bubbleText, data) {
-            return this.editor.addBubble(bubbleText, data);
-        }
-    },
+    addBubble(bubbleText, data) {
+        return this.editor.addBubble(bubbleText, data)
+    }
 
     /**
      * Remove bubble.
@@ -121,11 +100,9 @@ const XBubbles = Object.create(HTMLDivElement.prototype, {
      * @returns {boolean}
      * @public
      */
-    removeBubble: {
-        value: function (nodeBubble) {
-            return this.editor.removeBubble(nodeBubble);
-        }
-    },
+    removeBubble(nodeBubble) {
+        return this.editor.removeBubble(nodeBubble);
+    }
 
     /**
      * Edit bubble.
@@ -135,11 +112,9 @@ const XBubbles = Object.create(HTMLDivElement.prototype, {
      * @returns {boolean}
      * @public
      */
-    editBubble: {
-        value: function (nodeBubble) {
-            return this.editor.editBubble(nodeBubble);
-        }
-    },
+    editBubble(nodeBubble) {
+        return this.editor.editBubble(nodeBubble);
+    }
 
     /**
      * Starting formation bablow.
@@ -148,16 +123,13 @@ const XBubbles = Object.create(HTMLDivElement.prototype, {
      * @returns {boolean}
      * @public
      */
-    bubbling: {
-        value: function () {
-            return this.editor.bubbling();
-        }
-    },
-});
+    bubbling() {
+        return this.editor.bubbling();
+    }
+}
 
-module.exports = context.document.registerElement('x-bubbles', {
-    extends: 'div',
-    prototype: XBubbles
+module.exports = context.customElements.define('x-bubbles', XBubbles, {
+    extends: 'div'
 });
 
 function initEditor(node) {
