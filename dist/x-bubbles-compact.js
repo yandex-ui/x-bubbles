@@ -47,6 +47,40 @@ var XBubbles =
 
 	'use strict';
 
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var _fixBabelExtend = function (O) {
+	    var gPO = O.getPrototypeOf || function (o) {
+	        return o.__proto__;
+	    },
+	        sPO = O.setPrototypeOf || function (o, p) {
+	        o.__proto__ = p;
+	        return o;
+	    },
+	        construct = (typeof Reflect === 'undefined' ? 'undefined' : _typeof(Reflect)) === 'object' ? Reflect.construct : function (Parent, args, Class) {
+	        var Constructor,
+	            a = [null];
+	        a.push.apply(a, args);
+	        Constructor = Parent.bind.apply(Parent, a);
+	        return sPO(new Constructor(), Class.prototype);
+	    };
+
+	    return function fixBabelExtend(Class) {
+	        var Parent = gPO(Class);
+	        return sPO(Class, sPO(function Super() {
+	            return construct(Parent, arguments, gPO(this).constructor);
+	        }, Parent));
+	    };
+	}(Object);
+
 	/**
 	 * XBubbles custom element.
 	 * @module x-bubbles
@@ -55,158 +89,166 @@ var XBubbles =
 	var context = __webpack_require__(1);
 	var editor = __webpack_require__(2);
 	var utils = __webpack_require__(6);
-	var options = __webpack_require__(37);
+	var _options = __webpack_require__(37);
 
-	/**
-	 * Prototype of XBubbles.
-	 * @type {Object}
-	 */
-	var XBubbles = Object.create(HTMLDivElement.prototype, {
-	    createdCallback: {
-	        value: function value() {
-	            initEditor(this);
-	            utils.ready(this);
-	        }
-	    },
+	var XBubbles = _fixBabelExtend(function (_HTMLDivElement) {
+	    _inherits(XBubbles, _HTMLDivElement);
 
-	    attachedCallback: {
-	        value: function value() {
+	    function XBubbles() {
+	        _classCallCheck(this, XBubbles);
+
+	        var _this = _possibleConstructorReturn(this, (XBubbles.__proto__ || Object.getPrototypeOf(XBubbles)).call(this));
+
+	        initEditor(_this);
+	        utils.ready(_this);
+	        return _this;
+	    }
+
+	    _createClass(XBubbles, [{
+	        key: 'connectedCallback',
+	        value: function connectedCallback() {
 	            initEditor(this);
 	            this.editor.bubbling();
 	        }
-	    },
-
-	    detachedCallback: {
-	        value: function value() {
+	    }, {
+	        key: 'disconnectedCallback',
+	        value: function disconnectedCallback() {
 	            destroyEditor(this);
 	        }
-	    },
-
-	    attributeChangedCallback: {
-	        value: function value() /* name, prevValue, value */{
-	            options(this);
+	    }, {
+	        key: 'attributeChangedCallback',
+	        value: function attributeChangedCallback() /* name, prevValue, value */{
+	            _options(this);
 	        }
-	    },
 
-	    /**
-	     * The receiving and recording settings.
-	     * @memberof XBubbles
-	     * @function
-	     * @param {string|object} name - string, if only one option is inserted, or object - if many options inserted
-	     * @param {*} value
-	     * @returns {*}
-	     * @public
-	     */
-	    options: {
-	        value: function value(name, _value) {
-	            return options(this, name, _value);
+	        /**
+	         * The receiving and recording settings.
+	         * @memberof XBubbles
+	         * @function
+	         * @param {string|object} name - string, if only one option is inserted, or object - if many options inserted
+	         * @param {*} value
+	         * @returns {*}
+	         * @public
+	         */
+
+	    }, {
+	        key: 'options',
+	        value: function options(name, value) {
+	            return _options(this, name, value);
 	        }
-	    },
 
-	    /**
-	     * List bablow.
-	     * @memberof XBubbles
-	     * @type {array}
-	     * @public
-	     */
-	    items: {
+	        /**
+	         * List bablow.
+	         * @memberof XBubbles
+	         * @type {array}
+	         * @public
+	         */
+
+	    }, {
+	        key: 'setContent',
+
+
+	        /**
+	         * Set contents of the set.
+	         * @function
+	         * @memberof XBubbles
+	         * @param {string} data
+	         * @returns {boolean}
+	         * @public
+	         */
+	        value: function setContent(data) {
+	            return this.editor.setContent(data);
+	        }
+	    }, {
+	        key: 'canAddBubble',
+	        value: function canAddBubble() {
+	            return this.editor.canAddBubble();
+	        }
+
+	        /**
+	         * Add bubble.
+	         * @function
+	         * @memberof XBubbles
+	         * @param {string} bubbleText
+	         * @param {Object} [data]
+	         * @returns {boolean}
+	         * @public
+	         */
+
+	    }, {
+	        key: 'addBubble',
+	        value: function addBubble(bubbleText, data) {
+	            return this.editor.addBubble(bubbleText, data);
+	        }
+
+	        /**
+	         * Remove bubble.
+	         * @function
+	         * @memberof XBubbles
+	         * @param {HTMLElement} nodeBubble
+	         * @returns {boolean}
+	         * @public
+	         */
+
+	    }, {
+	        key: 'removeBubble',
+	        value: function removeBubble(nodeBubble) {
+	            return this.editor.removeBubble(nodeBubble);
+	        }
+
+	        /**
+	         * Edit bubble.
+	         * @function
+	         * @memberof XBubbles
+	         * @param {HTMLElement} nodeBubble
+	         * @returns {boolean}
+	         * @public
+	         */
+
+	    }, {
+	        key: 'editBubble',
+	        value: function editBubble(nodeBubble) {
+	            return this.editor.editBubble(nodeBubble);
+	        }
+
+	        /**
+	         * Starting formation bablow.
+	         * @function
+	         * @memberof XBubbles
+	         * @returns {boolean}
+	         * @public
+	         */
+
+	    }, {
+	        key: 'bubbling',
+	        value: function bubbling() {
+	            return this.editor.bubbling();
+	        }
+	    }, {
+	        key: 'items',
 	        get: function get() {
 	            return this.editor.getItems();
 	        }
-	    },
 
-	    /**
-	     * The value entered.
-	     * @memberof XBubbles
-	     * @type {string}
-	     * @public
-	     */
-	    inputValue: {
+	        /**
+	         * The value entered.
+	         * @memberof XBubbles
+	         * @type {string}
+	         * @public
+	         */
+
+	    }, {
+	        key: 'inputValue',
 	        get: function get() {
 	            return this.editor.inputValue();
 	        }
-	    },
+	    }]);
 
-	    /**
-	     * Set contents of the set.
-	     * @function
-	     * @memberof XBubbles
-	     * @param {string} data
-	     * @returns {boolean}
-	     * @public
-	     */
-	    setContent: {
-	        value: function value(data) {
-	            return this.editor.setContent(data);
-	        }
-	    },
+	    return XBubbles;
+	}(HTMLDivElement));
 
-	    canAddBubble: {
-	        value: function value() {
-	            return this.editor.canAddBubble();
-	        }
-	    },
-
-	    /**
-	     * Add bubble.
-	     * @function
-	     * @memberof XBubbles
-	     * @param {string} bubbleText
-	     * @param {Object} [data]
-	     * @returns {boolean}
-	     * @public
-	     */
-	    addBubble: {
-	        value: function value(bubbleText, data) {
-	            return this.editor.addBubble(bubbleText, data);
-	        }
-	    },
-
-	    /**
-	     * Remove bubble.
-	     * @function
-	     * @memberof XBubbles
-	     * @param {HTMLElement} nodeBubble
-	     * @returns {boolean}
-	     * @public
-	     */
-	    removeBubble: {
-	        value: function value(nodeBubble) {
-	            return this.editor.removeBubble(nodeBubble);
-	        }
-	    },
-
-	    /**
-	     * Edit bubble.
-	     * @function
-	     * @memberof XBubbles
-	     * @param {HTMLElement} nodeBubble
-	     * @returns {boolean}
-	     * @public
-	     */
-	    editBubble: {
-	        value: function value(nodeBubble) {
-	            return this.editor.editBubble(nodeBubble);
-	        }
-	    },
-
-	    /**
-	     * Starting formation bablow.
-	     * @function
-	     * @memberof XBubbles
-	     * @returns {boolean}
-	     * @public
-	     */
-	    bubbling: {
-	        value: function value() {
-	            return this.editor.bubbling();
-	        }
-	    }
-	});
-
-	module.exports = context.document.registerElement('x-bubbles', {
-	    extends: 'div',
-	    prototype: XBubbles
+	module.exports = context.customElements.define('x-bubbles', XBubbles, {
+	    extends: 'div'
 	});
 
 	function initEditor(node) {

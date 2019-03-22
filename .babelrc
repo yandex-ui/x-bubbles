@@ -2,7 +2,10 @@
   "presets": ["es2015", "stage-0"],
   "plugins": [
     "transform-object-assign",
-    "transform-custom-element-classes"
+    [
+      "babel-plugin-transform-builtin-classes",
+      { "globals": [ "HTMLDivElement" ] }
+    ]
   ],
 
   "env": {

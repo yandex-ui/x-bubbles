@@ -49,7 +49,7 @@ class XBubbles extends HTMLDivElement {
      * @type {array}
      * @public
      */
-    items() {
+    get items() {
         return this.editor.getItems();
     }
 
@@ -59,7 +59,7 @@ class XBubbles extends HTMLDivElement {
      * @type {string}
      * @public
      */
-    inputValue() {
+    get inputValue() {
         return this.editor.inputValue();
     }
 
@@ -128,9 +128,11 @@ class XBubbles extends HTMLDivElement {
     }
 }
 
-module.exports = context.customElements.define('x-bubbles', XBubbles, {
+context.customElements.define('x-bubbles', XBubbles, {
     extends: 'div'
 });
+
+module.exports = XBubbles;
 
 function initEditor(node) {
     if (!node.editor) {
