@@ -2926,7 +2926,7 @@ var XBubbles =
 /* 20 */
 /***/ function(module, exports) {
 
-	module.exports = Modernizr;
+	module.exports = window.Modernizr;
 
 /***/ },
 /* 21 */

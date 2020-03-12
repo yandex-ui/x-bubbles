@@ -22,7 +22,7 @@ var params = {
     },
     'externals': {
         'modernizr': {
-            'var': 'Modernizr',
+            'var': 'window.Modernizr',
             'root': 'modernizr',
             'commonjs2': 'modernizr',
             'commonjs': 'modernizr',
