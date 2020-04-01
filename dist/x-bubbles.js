@@ -4332,7 +4332,13 @@ var XBubbles =
 
 	function onPasteSuccess(nodeEditor, dataText) {
 	  var checkBubblePaste = nodeEditor.options('checkBubblePaste');
+	  var lineBreakReplacer = nodeEditor.options('lineBreakReplacer');
 	  var selection = context.getSelection();
+
+	  if (dataText && lineBreakReplacer) {
+	    dataText = dataText.replace(/\n/g, lineBreakReplacer);
+	  }
+
 	  var isBubbling = dataText && selection.isCollapsed && !nodeEditor.inputValue ? checkBubblePaste(dataText) : false;
 
 	  if (text.replaceString(dataText, selection)) {
