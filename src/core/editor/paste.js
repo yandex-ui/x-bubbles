@@ -37,7 +37,13 @@ module.exports = function (event) {
 
 function onPasteSuccess(nodeEditor, dataText) {
     const checkBubblePaste = nodeEditor.options('checkBubblePaste');
+    const lineBreakReplacer = nodeEditor.options('lineBreakReplacer');
     const selection = context.getSelection();
+
+    if (dataText && lineBreakReplacer) {
+        dataText = dataText.replace(/\n/g, lineBreakReplacer);
+    }
+
     const isBubbling = do {
         if (dataText && selection.isCollapsed && !nodeEditor.inputValue) {
             checkBubblePaste(dataText);
